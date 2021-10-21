@@ -9,6 +9,7 @@
 import './editor.scss';
 import './style.scss';
 
+import { useBlockProps, RichText } from '@wordpress/block-editor';
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -36,6 +37,19 @@ registerBlockType( 'cgb/block-media-cta', {
 		__( 'create-guten-block' ),
 	],
 
+	attributes: {
+		title: {
+			type: 'string',
+			source: 'html',
+			selector: 'h2',
+		},
+		body: {
+			type: 'string',
+			source: 'html',
+			selector: 'p',
+		},
+	},
+
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
 	 *
@@ -45,21 +59,33 @@ registerBlockType( 'cgb/block-media-cta', {
 	 * @returns {Mixed} JSX Component.
 	 */
 	edit: ( { attributes, setAttributes } ) => {
-		// Creates a <p class='wp-block-cgb-block-media-cta'></p>.
+		const {
+			title,
+			body,
+		} = attributes;
+
+		function onChangeTitle( newTitle ) {
+			setAttributes( { title: newTitle } );
+		}
+
+		function onChangeBody( newBody ) {
+			setAttributes( { body: newBody } );
+		}
+
 		return (
 			<div className="media-cta-parent-wrapper">
-				<p>— Hello from the backend.</p>
-				<p>
-					CGB BLOCK: <code>media-cta</code> is a new Gutenberg block
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
+				<RichText key="editable"
+					tagName="h2"
+					placeholder="CTA Title"
+					value={ title }
+					onChange={ onChangeTitle }
+				/>
+				<RichText key="editable"
+					tagName="p"
+					placeholder="CTA Description"
+					value={ body }
+					onChange={ onChangeBody }
+				/>
 			</div>
 		);
 	},
@@ -76,20 +102,16 @@ registerBlockType( 'cgb/block-media-cta', {
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
 	save: ( { attributes } ) => {
+		const {
+			title,
+			body,
+		} = attributes;
 		return (
 			<div className="media-cta-parent-wrapper">
-				<p>— Hello from the frontend.</p>
-				<p>
-					CGB BLOCK: <code>media-cta</code> is a new Gutenberg block.
-				</p>
-				<p>
-					It was created via{ ' ' }
-					<code>
-						<a href="https://github.com/ahmadawais/create-guten-block">
-							create-guten-block
-						</a>
-					</code>.
-				</p>
+				<RichText.Content tagName="h2"
+					value={ title } />
+				<RichText.Content tagName="p"
+					value={ body } />
 			</div>
 		);
 	},
