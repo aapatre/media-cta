@@ -38,19 +38,16 @@ registerBlockType( 'cgb/block-media-cta', {
 
 	/**
 	 * The edit function describes the structure of your block in the context of the editor.
-	 * This represents what the editor will render when the block is used.
-	 *
-	 * The "edit" property must be a valid function.
 	 *
 	 * @link https://wordpress.org/gutenberg/handbook/block-api/block-edit-save/
 	 *
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Component.
 	 */
-	edit: ( props ) => {
+	edit: ( { attributes, setAttributes } ) => {
 		// Creates a <p class='wp-block-cgb-block-media-cta'></p>.
 		return (
-			<div className={ props.className }>
+			<div className="media-cta-parent-wrapper">
 				<p>— Hello from the backend.</p>
 				<p>
 					CGB BLOCK: <code>media-cta</code> is a new Gutenberg block
@@ -78,9 +75,9 @@ registerBlockType( 'cgb/block-media-cta', {
 	 * @param {Object} props Props.
 	 * @returns {Mixed} JSX Frontend HTML.
 	 */
-	save: ( props ) => {
+	save: ( { attributes } ) => {
 		return (
-			<div className={ props.className }>
+			<div className="media-cta-parent-wrapper">
 				<p>— Hello from the frontend.</p>
 				<p>
 					CGB BLOCK: <code>media-cta</code> is a new Gutenberg block.
