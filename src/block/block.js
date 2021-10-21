@@ -9,7 +9,15 @@
 import './editor.scss';
 import './style.scss';
 
-import { useBlockProps, RichText } from '@wordpress/block-editor';
+import {
+	useBlockProps,
+	RichText,
+	InspectorControls,
+	ColorPalette,
+} from '@wordpress/block-editor';
+
+import { PanelBody } from '@wordpress/components';
+
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
 
@@ -48,6 +56,10 @@ registerBlockType( 'cgb/block-media-cta', {
 			source: 'html',
 			selector: 'p',
 		},
+		titleColor: {
+			type: 'string',
+			default: 'black',
+		},
 	},
 
 	/**
@@ -62,6 +74,7 @@ registerBlockType( 'cgb/block-media-cta', {
 		const {
 			title,
 			body,
+			titleColor,
 		} = attributes;
 
 		function onChangeTitle( newTitle ) {
@@ -72,20 +85,34 @@ registerBlockType( 'cgb/block-media-cta', {
 			setAttributes( { body: newBody } );
 		}
 
+		function onChangeTitleColor( newTitleColor ) {
+			setAttributes( { titleColor: newTitleColor } );
+		}
+
 		return (
-			<div className="media-cta-parent-wrapper">
-				<RichText key="editable"
-					tagName="h2"
-					placeholder="CTA Title"
-					value={ title }
-					onChange={ onChangeTitle }
-				/>
-				<RichText key="editable"
-					tagName="p"
-					placeholder="CTA Description"
-					value={ body }
-					onChange={ onChangeBody }
-				/>
+			<div>
+				<InspectorControls>
+					<PanelBody title={ 'Font Color Settings' }>
+						<p><strong>Select Title Color:</strong></p>
+						<ColorPalette value={ titleColor }
+							onChange={ onChangeTitleColor } />
+					</PanelBody>
+				</InspectorControls>
+				<div className="media-cta-parent-wrapper">
+					<RichText key="editable"
+						tagName="h2"
+						placeholder="CTA Title"
+						value={ title }
+						onChange={ onChangeTitle }
+						style={ { color: titleColor } }
+					/>
+					<RichText key="editable"
+						tagName="p"
+						placeholder="CTA Description"
+						value={ body }
+						onChange={ onChangeBody }
+					/>
+				</div>
 			</div>
 		);
 	},
@@ -105,11 +132,13 @@ registerBlockType( 'cgb/block-media-cta', {
 		const {
 			title,
 			body,
+			titleColor,
 		} = attributes;
 		return (
 			<div className="media-cta-parent-wrapper">
 				<RichText.Content tagName="h2"
-					value={ title } />
+					value={ title }
+					style={ { color: titleColor } } />
 				<RichText.Content tagName="p"
 					value={ body } />
 			</div>
