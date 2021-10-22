@@ -14,9 +14,15 @@ import {
 	RichText,
 	InspectorControls,
 	ColorPalette,
+	MediaUpload,
+	MediaUploadCheck,
 } from '@wordpress/block-editor';
 
-import { PanelBody } from '@wordpress/components';
+import {
+	PanelBody,
+	Button,
+	IconButton,
+} from '@wordpress/components';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
@@ -60,6 +66,10 @@ registerBlockType( 'cgb/block-media-cta', {
 			type: 'string',
 			default: 'black',
 		},
+		backgroundImage: {
+			type: 'string',
+			default: null,
+		},
 	},
 
 	/**
@@ -75,6 +85,7 @@ registerBlockType( 'cgb/block-media-cta', {
 			title,
 			body,
 			titleColor,
+			backgroundImage,
 		} = attributes;
 
 		function onChangeTitle( newTitle ) {
@@ -89,6 +100,10 @@ registerBlockType( 'cgb/block-media-cta', {
 			setAttributes( { titleColor: newTitleColor } );
 		}
 
+		function onSelectImage( newImage ) {
+			setAttributes( { backgroundImage: newImage.sizes.full.url } );
+		}
+
 		return (
 			<div>
 				<InspectorControls>
@@ -96,6 +111,21 @@ registerBlockType( 'cgb/block-media-cta', {
 						<p><strong>Select Title Color:</strong></p>
 						<ColorPalette value={ titleColor }
 							onChange={ onChangeTitleColor } />
+					</PanelBody>
+					<PanelBody title={ 'Background Image Settings' }>
+						<p><strong>Select a Background Image:</strong></p>
+						<MediaUpload
+							onSelect={ onSelectImage }
+							type="image"
+							value={ backgroundImage }
+							render={ ( { open } )=>(
+								<IconButton
+									onClick={ open }
+									icon="upload"
+									className="editor-media-placeholder__button is-button is-default is-large">
+									Select Background Image
+								</IconButton>
+							) } />
 					</PanelBody>
 				</InspectorControls>
 				<div className="media-cta-parent-wrapper">
@@ -133,6 +163,7 @@ registerBlockType( 'cgb/block-media-cta', {
 			title,
 			body,
 			titleColor,
+			backgroundImage,
 		} = attributes;
 		return (
 			<div className="media-cta-parent-wrapper">
