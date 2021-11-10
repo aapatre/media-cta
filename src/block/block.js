@@ -22,6 +22,7 @@ import {
 	PanelBody,
 	Button,
 	IconButton,
+	RangeControl,
 } from '@wordpress/components';
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
@@ -70,6 +71,14 @@ registerBlockType( 'cgb/block-media-cta', {
 			type: 'string',
 			default: null,
 		},
+		overlayColor: {
+			type: 'string',
+			default: 'black',
+		},
+		overlayOpacity: {
+			type: 'number',
+			default: 0.3,
+		},
 	},
 
 	/**
@@ -86,6 +95,8 @@ registerBlockType( 'cgb/block-media-cta', {
 			body,
 			titleColor,
 			backgroundImage,
+			overlayColor,
+			overlayOpacity,
 		} = attributes;
 
 		function onChangeTitle( newTitle ) {
@@ -102,6 +113,14 @@ registerBlockType( 'cgb/block-media-cta', {
 
 		function onSelectImage( newImage ) {
 			setAttributes( { backgroundImage: newImage.sizes.full.url } );
+		}
+
+		function onChangeOverlayColor( newColor ) {
+			setAttributes( { overlayColor: newColor } );
+		}
+
+		function onChangeOverlayOpacity( newOpacity ) {
+			setAttributes( { overlayOpacity: newOpacity } );
 		}
 
 		return (
@@ -126,6 +145,18 @@ registerBlockType( 'cgb/block-media-cta', {
 									Select Background Image
 								</IconButton>
 							) } />
+					</PanelBody>
+					<PanelBody title={ 'Overlay Settings' }>
+						<p><strong>Select Overlay Color:</strong></p>
+						<ColorPalette value={ overlayColor }
+							onChange={ onChangeOverlayColor } />
+
+						<p><strong>Set Overlay Opacity:</strong></p>
+						<RangeControl value={ overlayOpacity }
+							onChange={ onChangeOverlayOpacity }
+							min={ 0 }
+							max={ 1 }
+							step={ 0.01 } />
 					</PanelBody>
 				</InspectorControls>
 				<div className="media-cta-parent-wrapper" style={ {
@@ -169,6 +200,8 @@ registerBlockType( 'cgb/block-media-cta', {
 			body,
 			titleColor,
 			backgroundImage,
+			overlayColor,
+			overlayOpacity,
 		} = attributes;
 		return (
 			<div className="media-cta-parent-wrapper" style={ {
