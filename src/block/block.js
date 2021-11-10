@@ -128,7 +128,12 @@ registerBlockType( 'cgb/block-media-cta', {
 							) } />
 					</PanelBody>
 				</InspectorControls>
-				<div className="media-cta-parent-wrapper">
+				<div className="media-cta-parent-wrapper" style={ {
+					backgroundImage: `url( ${ backgroundImage })`,
+					backgroundSize: 'cover',
+					backgroundPosition: 'center',
+					backgroundRepeat: 'no-repeat',
+				} }>
 					<RichText key="editable"
 						tagName="h2"
 						placeholder="CTA Title"
@@ -166,7 +171,12 @@ registerBlockType( 'cgb/block-media-cta', {
 			backgroundImage,
 		} = attributes;
 		return (
-			<div className="media-cta-parent-wrapper">
+			<div className="media-cta-parent-wrapper" style={ {
+				backgroundImage: `url( ${ backgroundImage })`,
+				backgroundSize: 'cover',
+				backgroundPosition: 'center',
+				backgroundRepeat: 'no-repeat',
+			} }>
 				<RichText.Content tagName="h2"
 					value={ title }
 					style={ { color: titleColor } } />
