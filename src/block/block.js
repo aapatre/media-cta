@@ -17,6 +17,8 @@ import {
 	MediaUpload,
 	MediaUploadCheck,
 	InnerBlocks,
+	BlockControls,
+	AlignmentToolbar,
 } from '@wordpress/block-editor';
 
 import {
@@ -82,6 +84,10 @@ registerBlockType( 'cgb/block-media-cta', {
 			type: 'number',
 			default: 0.3,
 		},
+		alignment: {
+			type: 'string',
+			default: 'none',
+		},
 	},
 
 	/**
@@ -100,6 +106,7 @@ registerBlockType( 'cgb/block-media-cta', {
 			backgroundImage,
 			overlayColor,
 			overlayOpacity,
+			alignment,
 		} = attributes;
 
 		function onChangeTitle( newTitle ) {
@@ -124,6 +131,10 @@ registerBlockType( 'cgb/block-media-cta', {
 
 		function onChangeOverlayOpacity( newOpacity ) {
 			setAttributes( { overlayOpacity: newOpacity } );
+		}
+
+		function onChangeAlignment( newAlignment ) {
+			setAttributes( { alignment: newAlignment === undefined ? 'none' : newAlignment } );
 		}
 
 		return (
@@ -173,6 +184,14 @@ registerBlockType( 'cgb/block-media-cta', {
 						background: overlayColor,
 						opacity: overlayOpacity,
 					} }></div>
+					{
+						<BlockControls>
+							<AlignmentToolbar
+								value={ alignment }
+								onChange={ onChangeAlignment }
+							/>
+						</BlockControls>
+					}
 					<RichText key="editable"
 						tagName="h2"
 						placeholder="CTA Title"
