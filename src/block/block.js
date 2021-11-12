@@ -16,6 +16,7 @@ import {
 	ColorPalette,
 	MediaUpload,
 	MediaUploadCheck,
+	InnerBlocks,
 } from '@wordpress/block-editor';
 
 import {
@@ -27,6 +28,8 @@ import {
 
 const { __ } = wp.i18n; // Import __() from wp.i18n
 const { registerBlockType } = wp.blocks; // Import registerBlockType() from wp.blocks
+
+const ALLOWED_BLOCKS = [ 'core/button' ];
 
 /**
  * Register: aa Gutenberg Block.
@@ -183,6 +186,7 @@ registerBlockType( 'cgb/block-media-cta', {
 						value={ body }
 						onChange={ onChangeBody }
 					/>
+					<InnerBlocks allowedBlocks={ ALLOWED_BLOCKS } />
 				</div>
 			</div>
 		);
