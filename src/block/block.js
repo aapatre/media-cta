@@ -253,6 +253,7 @@ registerBlockType( 'cgb/block-media-cta', {
 					style={ { color: titleColor } } />
 				<RichText.Content tagName="p"
 					value={ body } />
+				<InnerBlocks.Content />
 			</div>
 		);
 	},
