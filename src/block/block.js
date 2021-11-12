@@ -165,6 +165,11 @@ registerBlockType( 'cgb/block-media-cta', {
 					backgroundPosition: 'center',
 					backgroundRepeat: 'no-repeat',
 				} }>
+					{ /* Overlay */ }
+					<div className="media-cta-overlay" style={ {
+						background: overlayColor,
+						opacity: overlayOpacity,
+					} }></div>
 					<RichText key="editable"
 						tagName="h2"
 						placeholder="CTA Title"
@@ -210,6 +215,16 @@ registerBlockType( 'cgb/block-media-cta', {
 				backgroundPosition: 'center',
 				backgroundRepeat: 'no-repeat',
 			} }>
+				{ /* Overlay */ }
+				<div className="media-cta-overlay" style={ {
+					background: overlayColor,
+					opacity: overlayOpacity,
+					position: 'absolute',
+					top: 0,
+					bottom: 0,
+					left: 0,
+					right: 0,
+				} }></div>
 				<RichText.Content tagName="h2"
 					value={ title }
 					style={ { color: titleColor } } />

@@ -9,3 +9,13 @@
  *
  * CSS for both Frontend+Backend.
  */
+.media-cta-parent-wrapper {
+  position: relative;
+  padding: 10px 20px; }
+  .media-cta-parent-wrapper .media-cta-overlay {
+    position: absolute;
+    inset: 0px; }
+  .media-cta-parent-wrapper * {
+    text-align: center;
+    position: relative;
+    z-index: 1; }
